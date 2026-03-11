@@ -1,0 +1,9 @@
+__pycache__
+*.out
+*.egg-info
+/.trea/
+/data/
+/picture/
+/pre_train/
+/results/
+setup.py

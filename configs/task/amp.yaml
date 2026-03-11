@@ -1,0 +1,25 @@
+_target_: torch_seq_moo.tasks.amp.AMPTask
+log_prefix: amp
+min_len: 10
+max_len: 30
+num_start_examples: 512
+batch_size: 64
+max_score_per_dim: 1.0
+score_max:
+  - 1.0  # activity
+  - 1.0  # hemo
+  - 1.0  # toxi
+#  - 1.0  # hydrophobicity
+objectives:
+  - activity
+  - safety
+  - toxi 
+eval_pref: 
+  - 0.33
+  - 0.34
+  - 0.33
+allow_len_change: True
+esm_model_path: /home/gml/GFN/AMP_reward/esm2_650m_weights
+amp_weight_path: /home/gml/GFN/AMP_reward/amp_classifier_650M_best.pth
+hemo_weight_path: /home/gml/GFN/AMP_reward/hemolytic_classifier_650M_best.pth
+toxi_weight_path: /home/gml/GFN/AMP_reward/toxi_classifier_650M_best.pth

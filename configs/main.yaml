@@ -1,0 +1,26 @@
+defaults:
+  - task: amp
+  - algorithm: mogfn
+  - tokenizer: protein
+
+seed: ${trial_id}
+trial_id: 0
+project_name: torch_seq_moo
+version: v0.0.1
+
+# Directories for loading and storing data
+data_dir: /home/gml/GFN/mo_gfn/data
+exp_name: test
+group_name: amp
+exp_tags: [amp,mogfn]
+job_name: null
+timestamp: ${now:%Y-%m-%d_%H-%M-%S}
+log_dir: ${data_dir}/${exp_name}
+wandb_mode: online
+
+hydra:
+  run:
+    dir: ${log_dir}
+  sweep:
+    dir: ${log_dir}
+    subdir: .

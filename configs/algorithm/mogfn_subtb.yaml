@@ -1,0 +1,61 @@
+_target_: torch_seq_moo.algorithms.mogfn_subtb.MOGFNSubTB
+_recursive_: False
+num_rounds: 64
+num_gens: 16
+random_action_prob: 0.05
+max_len: ${task.max_len}
+min_len: ${task.min_len}
+eval_metrics: ["hypervolume", "r2", "hsri"]
+batch_size: 256
+reward_exp: 4
+reward_min: 1e-80
+reward_max: 100
+sampling_temp: 1 
+train_steps: 20000
+beta_use_therm: True
+pref_use_therm: True
+beta_cond: False
+pref_cond: True
+beta_scale: 1
+beta_shape: 32
+pref_alpha: [1.0,1.0,1.0]
+pi_lr: 0.0001
+z_lr: 0.001
+wd: 0.0001
+beta_max: 96
+therm_n_bins: 50
+gen_clip: 10
+encoder_obj: mlm
+reward_type: convex # smoothed_geo
+sample_beta: 96
+simplex_bins: 10
+eval_freq: 10
+k: 50
+num_samples: 128
+use_eval_pref: False
+state_save_path: "/home/gml/GFN/mo_gfn/data/amp_2_123.pkl.gz"
+num_pareto_points: 500
+pareto_freq: 1000
+unnormalize_rewards: False
+
+subtb:
+  short_lengths: [1,2,3,4]
+  random_long_ratio: 0.25
+  min_subtraj_len: 5
+  max_subtraj_len: 30
+  max_subtraj_per_traj: 48
+  include_terminal: true
+  weight_scheme: geometric
+  lambda_weight: 0.9
+
+model:
+  _target_: torch_seq_moo.algorithms.mogfn_utils.subtb_transformer.SubTBTransformer
+  max_len: ${task.max_len}
+  vocab_size: 26
+  num_actions: 21
+  num_hid: 256
+  num_layers: 4
+  num_head: 16
+  bidirectional: False
+  dropout: 0
+  batch_size: 128

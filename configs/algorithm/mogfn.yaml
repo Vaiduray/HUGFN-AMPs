@@ -1,0 +1,53 @@
+_target_: torch_seq_moo.algorithms.mogfn.MOGFN
+_recursive_: False
+num_rounds: 64
+num_gens: 16
+random_action_prob: 0.05
+max_len: ${task.max_len}
+min_len: ${task.min_len}
+eval_metrics: ["hypervolume", "r2", "hsri"]
+batch_size: 256
+reward_exp: 4
+reward_min: 1e-80
+reward_max: 100
+sampling_temp: 1
+train_steps: 10000
+beta_use_therm: True
+pref_use_therm: True
+beta_cond: False
+pref_cond: True
+beta_scale: 1
+beta_shape: 32
+pref_alpha: [1.0,1.0,1.0]
+pi_lr: 0.00005
+z_lr: 0.0005
+wd: 0.0001
+beta_max: 56
+therm_n_bins: 50
+gen_clip: 10
+encoder_obj: mlm
+reward_type: convex # convex logconvex tchebycheff smoothed_geo
+
+sample_beta: 56 # 很重要的参数！
+
+simplex_bins: 10
+eval_freq: 500
+k: 50
+num_samples: 128
+use_eval_pref: False # 是否使用固定的评估偏好，也就是说开启之后可以看你想要的特定偏好的评测数据，不然默认是评估随机的，也就是全部的
+state_save_path: "."
+num_pareto_points: 500
+pareto_freq: 1000
+unnormalize_rewards: False
+
+model:
+  _target_: torch_seq_moo.algorithms.mogfn_utils.conditional_transformer.CondGFNTransformer
+  max_len: ${task.max_len}
+  vocab_size: 26
+  num_actions: 21
+  num_hid: 512
+  num_layers: 3
+  num_head: 16
+  bidirectional: False
+  dropout: 0.1
+  batch_size: 128
