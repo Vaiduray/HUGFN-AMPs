@@ -1,6 +1,6 @@
 # HUGFN-AMPs for Antimicrobial Peptide Generation
 
-Code for antimicrobial peptide generation with Hybrid Uncertainty-aware Generative Flow Networks. This code extends the [MOGFN framework](https://github.com/GFNOrg/multi-objective-gfn) with uncertainty quantification for multi-objective AMP design.
+Code for antimicrobial peptide generation with Hybrid Uncertainty-aware Generative Flow Networks. 
 
 This folder consists of code for AMP generation:
 
