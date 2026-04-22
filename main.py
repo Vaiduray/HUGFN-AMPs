@@ -9,7 +9,7 @@ import sys
 import torch
 import numpy as np
 from omegaconf import OmegaConf, DictConfig
-from torch_seq_moo.utils import flatten_config
+from Hugfn_amp.utils import flatten_config
 
 def set_seed(seed):
     torch.backends.cudnn.deterministic = True
@@ -25,9 +25,9 @@ def init_run(cfg):
         cfg.job_name = '_'.join(randomname.get_name().lower().split('-') + [str(trial_id)])
     cfg.seed = random.randint(0, 100000) if cfg.seed is None else cfg.seed
     set_seed(cfg.seed)
-    cfg = OmegaConf.to_container(cfg, resolve=True)  # Resolve config interpolations
+    cfg = OmegaConf.to_container(cfg, resolve=True) 
     cfg = DictConfig(cfg)
-    # logger.write_hydra_yaml(cfg)
+
 
     print(OmegaConf.to_yaml(cfg))
     with open('hydra_config.txt', 'w') as f:
@@ -37,7 +37,7 @@ def init_run(cfg):
 
 @hydra.main(config_path='./configs', config_name='main')
 def main(config):
-    random.seed(None)  # make sure random seed resets between multirun jobs for random job-name generation
+    random.seed(None) 
 
     log_config = flatten_config(OmegaConf.to_container(config, resolve=True), sep='/')
     log_config = {'/'.join(('config', key)): val for key, val in log_config.items()}
@@ -74,7 +74,7 @@ def main(config):
             logging.info("Running Optimizer")
             metrics = algorithm.optimize(task, init_data=None)
             
-            metrics = {key.split('/')[-1]: val for key, val in metrics.items()}  # strip prefix
+            metrics = {key.split('/')[-1]: val for key, val in metrics.items()} 
             ret_val = metrics['hypervol_rel']
 
         except Exception as err:

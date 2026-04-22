@@ -1,9 +1,3 @@
-"""
-MOGFN Preference Sampling Script
-从 hydra_config.txt 读取配置，加载模型权重，进行偏好采样
-python sample_with_preference.py --task amp_14 --prefs "[0.33,0.33,0.34]"
-"""
-
 import os
 import sys
 import json
@@ -15,7 +9,6 @@ import yaml
 from pathlib import Path
 
 def parse_prefs(pref_str):
-    """解析用户输入的偏好字符串"""
     if pref_str is None:
         return None
     
@@ -32,7 +25,6 @@ def parse_prefs(pref_str):
         return None
 
 def find_available_runs(data_dir="data"):
-    """查找所有可用的训练 run"""
     runs = []
     for item in os.listdir(data_dir):
         run_dir = os.path.join(data_dir, item)
@@ -52,7 +44,6 @@ def find_available_runs(data_dir="data"):
     return runs
 
 def load_config_from_yaml(config_path):
-    """从 hydra_config.txt 加载配置"""
     with open(config_path, 'r') as f:
         config_content = f.read()
     
@@ -60,7 +51,6 @@ def load_config_from_yaml(config_path):
     return config_dict
 
 def instantiate_config(config_dict, task_name="amp"):
-    """从配置字典实例化对象"""
     from omegaconf import OmegaConf
     
     cfg = OmegaConf.create(config_dict)
@@ -72,8 +62,7 @@ def instantiate_config(config_dict, task_name="amp"):
     return cfg, tokenizer_cfg, task_cfg, algorithm_cfg
 
 def get_preference_encoding(prefs, algorithm):
-    """将偏好向量转换为模型的条件变量"""
-    from torch_seq_moo.algorithms.mogfn_utils.utils import thermometer
+    from Hugfn_amp.algorithms.mogfn_utils.utils import thermometer
     
     device = next(algorithm.model.parameters()).device
     
@@ -109,8 +98,7 @@ def get_preference_encoding(prefs, algorithm):
     return cond_var
 
 def sample_sequences(algorithm, num_samples, prefs, batch_size=256):
-    """使用给定偏好批量采样序列"""
-    from torch_seq_moo.utils import str_to_tokens, tokens_to_str
+    from Hugfn_amp.utils import str_to_tokens, tokens_to_str
     from torch.distributions import Categorical
     
     device = next(algorithm.model.parameters()).device
